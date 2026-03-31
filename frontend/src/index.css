@@ -81,3 +81,14 @@ body {
 .text-heading { color: var(--text-heading); }
 .text-subheading { color: var(--text-subheading); }
 .text-muted { color: var(--text-muted); }
+
+/* Utility to hide scrollbars */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}

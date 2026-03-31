@@ -38,7 +38,7 @@ export default function Dashboard() {
    const fetchDashboardData = async () => {
       try {
          const res = await API.get(`/transactions/dashboard/summary?filter=${activeFilter}`);
-         setData(res.data);
+         setData(prev => ({ ...prev, ...res.data }));
       } catch (err) {
          toast.error("Failed to load dashboard data");
       } finally {
@@ -124,10 +124,10 @@ export default function Dashboard() {
 
          {/* Row 1: Top 4 Stat Cards */}
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCardSmall title="Total Balance" value={data.totalBalance} icon={Wallet} color="bg-teal-500" subtext="this month" trend={10} />
-            <StatCardSmall title="Monthly Income" value={data.monthlyIncome} icon={TrendingUp} color="bg-teal-500" subtext="from last month" trend={12.5} />
-            <StatCardSmall title="Monthly Expense" value={data.monthlyExpense} icon={TrendingDown} color="bg-orange-500" subtext="from last month" trend={0} />
-            <StatCardSmall title="Saving Rate" value={data.savingRate} icon={PieChart} color="bg-blue-500" subtext="Excellent" />
+            <StatCardSmall title="Total Balance" value={data.totalBalance || 0} icon={Wallet} color="bg-teal-500" subtext="this month" trend={10} />
+            <StatCardSmall title="Monthly Income" value={data.monthlyIncome || 0} icon={TrendingUp} color="bg-teal-500" subtext="from last month" trend={12.5} />
+            <StatCardSmall title="Monthly Expense" value={data.monthlyExpense || 0} icon={TrendingDown} color="bg-orange-500" subtext="from last month" trend={0} />
+            <StatCardSmall title="Saving Rate" value={data.savingRate || 0} icon={PieChart} color="bg-blue-500" subtext="Excellent" />
          </div>
 
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
@@ -137,18 +137,18 @@ export default function Dashboard() {
 
                {/* Section 1: Financial Overview Banner */}
                <div className="glass-card p-8 rounded-[2rem] space-y-8">
-                  <div className="bg-teal-500/10 rounded-[2rem] p-10 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-10">
+                  <div className="bg-teal-500/10 rounded-[2rem] p-6 sm:p-10 relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-10">
                      <div className="space-y-4">
-                        <h2 className="text-4xl font-black text-teal-400 tracking-tight leading-none">Finance Dashboard</h2>
-                        <p className="text-teal-300 font-bold text-sm tracking-tight opacity-80">Track your income and expenses effortless</p>
+                        <h2 className="text-2xl sm:text-4xl font-black text-teal-400 tracking-tight leading-none">Finance Dashboard</h2>
+                        <p className="text-teal-300 font-bold text-xs sm:text-sm tracking-tight opacity-80">Track your income and expenses effortless</p>
                      </div>
-                     <div className="flex flex-col items-end gap-6">
-                        <button onClick={() => setShowModal(true)} className="flex items-center gap-3 bg-teal-600 text-white px-8 py-5 rounded-[1.5rem] font-black text-sm shadow-2xl hover:bg-teal-700 transition-all active:scale-95">
+                     <div className="flex flex-col items-start lg:items-end gap-4 sm:gap-6">
+                        <button onClick={() => setShowModal(true)} className="w-full sm:w-auto flex items-center justify-center gap-3 bg-teal-600 text-white px-6 sm:px-8 py-4 sm:py-5 rounded-[1.2rem] sm:rounded-[1.5rem] font-black text-sm shadow-2xl hover:bg-teal-700 transition-all active:scale-95">
                            <Plus size={20} /> Add Transaction
                         </button>
-                        <div className="flex glass-pill p-1 rounded-2xl">
+                        <div className="flex glass-pill p-1 rounded-2xl overflow-x-auto max-w-full">
                            {["Daily", "Weekly", "Monthly", "Yearly"].map(f => (
-                              <button key={f} onClick={() => setActiveFilter(f)} className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeFilter === f ? "bg-teal-600 text-white shadow-lg" : "text-muted hover:text-subheading"}`}>
+                              <button key={f} onClick={() => setActiveFilter(f)} className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeFilter === f ? "bg-teal-600 text-white shadow-lg" : "text-muted hover:text-subheading"}`}>
                                  {f}
                               </button>
                            ))}
@@ -157,36 +157,36 @@ export default function Dashboard() {
                   </div>
 
                   {/* Sub-stats */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                      <div className="p-6 glass-pill rounded-2xl space-y-3">
                         <div className="text-teal-400 font-black text-[10px] uppercase tracking-widest">Total Balance</div>
-                        <h4 className="text-2xl font-black text-heading tracking-tighter">${data.totalBalance.toLocaleString()}</h4>
+                        <h4 className="text-2xl font-black text-heading tracking-tighter">${(data.totalBalance || 0).toLocaleString()}</h4>
                      </div>
                      <div className="p-6 glass-pill rounded-2xl space-y-3">
                         <div className="text-orange-400 font-black text-[10px] uppercase tracking-widest">This Month Expenses</div>
-                        <h4 className="text-2xl font-black text-heading tracking-tighter">${data.monthlyExpense.toLocaleString()}</h4>
+                        <h4 className="text-2xl font-black text-heading tracking-tighter">${(data.monthlyExpense || 0).toLocaleString()}</h4>
                      </div>
                      <div className="p-6 glass-pill rounded-2xl space-y-3">
                         <div className="text-blue-400 font-black text-[10px] uppercase tracking-widest">This Month Savings</div>
-                        <h4 className="text-2xl font-black text-heading tracking-tighter">${(data.monthlyIncome - data.monthlyExpense).toLocaleString()}</h4>
+                        <h4 className="text-2xl font-black text-heading tracking-tighter">${((data.monthlyIncome || 0) - (data.monthlyExpense || 0)).toLocaleString()}</h4>
                      </div>
                   </div>
 
                   {/* Semicircle Gauges */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-6">
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-6">
                      <div className="flex flex-col items-center space-y-4">
                         <p className="text-[11px] font-black text-teal-400 uppercase tracking-widest">Income</p>
-                        <div className="h-40 w-full"><Charts chartType="semicircle" data={90} color="#0d9488" title={data.monthlyIncome.toLocaleString()} /></div>
+                        <div className="h-40 w-full"><Charts chartType="semicircle" data={90} color="#0d9488" title={(data.monthlyIncome || 0).toLocaleString()} /></div>
                         <p className="text-[10px] font-bold text-muted">This Month data</p>
                      </div>
                      <div className="flex flex-col items-center space-y-4">
                         <p className="text-[11px] font-black text-orange-400 uppercase tracking-widest">Spent</p>
-                        <div className="h-40 w-full"><Charts chartType="semicircle" data={20} color="#ea580c" title={data.monthlyExpense.toLocaleString()} /></div>
+                        <div className="h-40 w-full"><Charts chartType="semicircle" data={20} color="#ea580c" title={(data.monthlyExpense || 0).toLocaleString()} /></div>
                         <p className="text-[10px] font-bold text-muted">This Month data</p>
                      </div>
                      <div className="flex flex-col items-center space-y-4">
                         <p className="text-[11px] font-black text-blue-400 uppercase tracking-widest">Savings</p>
-                        <div className="h-40 w-full"><Charts chartType="semicircle" data={80} color="#2563eb" title={(data.monthlyIncome - data.monthlyExpense).toLocaleString()} /></div>
+                        <div className="h-40 w-full"><Charts chartType="semicircle" data={80} color="#2563eb" title={((data.monthlyIncome || 0) - (data.monthlyExpense || 0)).toLocaleString()} /></div>
                         <p className="text-[10px] font-bold text-muted">This Month data</p>
                      </div>
                   </div>
@@ -203,7 +203,7 @@ export default function Dashboard() {
                </div>
 
                {/* Recent Boxes */}
-               <div className="flex flex-col gap-8">
+               <div className="flex flex-col md:flex-row gap-8">
                   <RecentBox title="Recent Income" type="income" transactions={data.recentTransactions.filter(t => t.type === "income")} />
                   <RecentBox title="Recent Expenses" type="expense" transactions={data.recentTransactions.filter(t => t.type === "expense")} />
                </div>

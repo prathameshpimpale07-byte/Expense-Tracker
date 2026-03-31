@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { ChevronDown, User, LogOut, Sun, Moon } from "lucide-react";
+import { ChevronDown, User, LogOut, Sun, Moon, Menu } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
-export default function Header() {
+export default function Header({ toggleSidebar }) {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -17,51 +17,61 @@ export default function Header() {
   };
 
   return (
-    <header className="h-16 border-b flex items-center justify-between px-10 fixed top-0 right-0 left-80 z-[60] glass-header">
-      {/* Brand area */}
-      <div className="flex-1"></div>
+    <header className="h-16 border-b flex items-center justify-between px-4 sm:px-10 fixed top-0 right-0 lg:left-80 left-0 z-[60] glass-header">
+      {/* Drawer Toggle (Mobile Only) */}
+      <button 
+        onClick={toggleSidebar}
+        className="lg:hidden p-2 text-slate-500 hover:text-teal-600 transition-colors"
+      >
+        <Menu size={24} />
+      </button>
+
+      {/* Brand area (centered on mobile, hidden on lg because sidebar is visible) */}
+      <div className="flex-1 lg:block">
+        <span className="lg:hidden text-lg font-black text-heading tracking-tight ml-2">Expense Tracker</span>
+      </div>
 
       {/* Right: Dark/Light Toggle + User Profile */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
 
         {/* ── Dark / Light Toggle Button ── */}
         <button
           onClick={toggleTheme}
           title={isDark ? "Switch to Light" : "Switch to Dark"}
-          className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all hover:scale-105 active:scale-95 border glass-pill select-none"
+          className="flex items-center gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl transition-all hover:scale-105 active:scale-95 border glass-pill select-none"
         >
-          <Sun size={15} className={`transition-all ${isDark ? "text-slate-500" : "text-orange-500"}`} />
+          <Sun size={14} className={`transition-all ${isDark ? "text-slate-500" : "text-orange-500"}`} />
           {/* Toggle track */}
-          <div className={`relative w-10 h-5 rounded-full transition-all duration-300 ${isDark ? "bg-indigo-500" : "bg-slate-300"}`}>
-            <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 ${isDark ? "left-5" : "left-0.5"}`} />
+          <div className={`relative w-8 h-4 sm:w-10 sm:h-5 rounded-full transition-all duration-300 ${isDark ? "bg-indigo-500" : "bg-slate-300"}`}>
+            <div className={`absolute top-0.5 w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full shadow transition-all duration-300 ${isDark ? "left-4 sm:left-5" : "left-0.5"}`} />
           </div>
-          <Moon size={15} className={`transition-all ${isDark ? "text-indigo-400" : "text-slate-400"}`} />
+          <Moon size={14} className={`transition-all ${isDark ? "text-indigo-400" : "text-slate-400"}`} />
         </button>
 
         {/* User Profile Dropdown */}
         <div className="relative">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-3 group focus:outline-none"
+            className="flex items-center gap-2 sm:gap-3 group focus:outline-none"
           >
             {/* Avatar with Online Dot */}
             <div className="relative">
-              <div className="w-10 h-10 bg-[#00897B] rounded-full flex items-center justify-center text-white text-xs font-black border-2 border-white shadow-sm group-hover:shadow-md transition-all overflow-hidden">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00897B] rounded-full flex items-center justify-center text-white text-xs font-black border-2 border-white shadow-sm group-hover:shadow-md transition-all overflow-hidden">
                 {user?.profileImage ? (
                   <img src={user.profileImage} alt="Avatar" className="w-full h-full object-cover" />
                 ) : (
                   user?.name?.charAt(0).toUpperCase() || "H"
                 )}
               </div>
-              <div className="absolute right-0 bottom-0 w-3 h-3 bg-[#4CAF50] border-2 border-white rounded-full"></div>
+              <div className="absolute right-0 bottom-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-[#4CAF50] border-2 border-white rounded-full"></div>
             </div>
 
-            <div className="text-left hidden sm:block">
+            <div className="text-left hidden md:block">
               <p className="text-sm font-bold leading-none text-heading">{user?.name || "Hex"}</p>
               <p className="text-[10px] font-semibold text-muted mt-1">{user?.email || "hexa@gmail.com"}</p>
             </div>
 
-            <div className="text-muted group-hover:text-heading transition-colors ml-1">
+            <div className="text-muted group-hover:text-heading transition-colors">
               <ChevronDown size={14} className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
             </div>
           </button>
@@ -71,6 +81,7 @@ export default function Header() {
             <>
               <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)}></div>
               <div className="absolute top-14 right-0 w-44 glass-card rounded-[1.5rem] shadow-2xl py-2.5 z-20 animate-in fade-in zoom-in duration-150">
+... (rest of the dropdown menu content)
 
                 <div className="px-4 py-2 flex items-center gap-2 border-b border-white/10">
                   <div className="w-7 h-7 bg-[#00897B] rounded-full flex items-center justify-center text-white text-[9px] font-black border border-white shadow-sm shrink-0 overflow-hidden">

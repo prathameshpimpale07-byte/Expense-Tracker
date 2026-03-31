@@ -159,16 +159,16 @@ export default function Profile() {
     <div className="max-w-5xl mx-auto space-y-10 animate-in fade-in duration-500">
         
         {/* Profile Header Image Display */}
-        <div className="glass-card rounded-[2rem] p-12 py-16 flex flex-col items-center justify-center relative overflow-hidden shadow-2xl border-none">
+        <div className="glass-card rounded-[2rem] p-6 sm:p-12 py-10 sm:py-16 flex flex-col items-center justify-center relative overflow-hidden shadow-2xl border-none">
            {/* Decorative bg element */}
            <div className="absolute inset-0 bg-teal-600/10 pointer-events-none"></div>
            
-           <div className="relative flex flex-col items-center gap-5 z-10">
+           <div className="relative flex flex-col items-center gap-4 sm:gap-5 z-10 text-center">
               <div 
                 className="relative group/avatar cursor-pointer outline-none"
                 onClick={() => fileInputRef.current?.click()}
               >
-                 <div className="w-32 h-32 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border-4 border-teal-500/20 shadow-xl overflow-hidden ring-4 ring-white/5 group-hover/avatar:ring-teal-500/30 transition-all">
+                 <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border-4 border-teal-500/20 shadow-xl overflow-hidden ring-4 ring-white/5 group-hover/avatar:ring-teal-500/30 transition-all">
                     {user?.profileImage ? (
                        <img 
                          key={user.profileImage}
@@ -177,28 +177,28 @@ export default function Profile() {
                          className="w-full h-full object-cover animate-in fade-in transition-opacity duration-300" 
                         />
                     ) : (
-                       <div className="w-full h-full flex items-center justify-center text-5xl font-black bg-teal-600 text-teal-50">
+                       <div className="w-full h-full flex items-center justify-center text-4xl sm:text-5xl font-black bg-teal-600 text-teal-50">
                           {user?.name?.charAt(0).toUpperCase() || "H"}
                        </div>
                     )}
                  </div>
-                 <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center rounded-full opacity-0 group-hover/avatar:opacity-100 transition-all pointer-events-none">
-                    <Camera className="text-white mb-1" size={24} />
-                    <span className="text-[9px] font-black text-white uppercase tracking-widest">Change</span>
+                 <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center rounded-full opacity-100 sm:opacity-0 sm:group-hover/avatar:opacity-100 transition-all pointer-events-none">
+                    <Camera className="text-white mb-1" size={20} sm:size={24} />
+                    <span className="text-[8px] sm:text-[9px] font-black text-white uppercase tracking-widest">Change</span>
                  </div>
                  <input ref={fileInputRef} type="file" className="hidden" accept="image/*" onChange={handleImageChange} onClick={(e) => e.target.value = null} />
               </div>
-              <div className="text-center">
-                 <h2 className="text-3xl font-black text-heading tracking-tight capitalize">{user?.name || "User"}</h2>
-                 <p className="text-muted font-bold text-sm tracking-wide">{user?.email || "user@example.com"}</p>
+              <div className="space-y-1">
+                 <h2 className="text-2xl sm:text-3xl font-black text-heading tracking-tight capitalize">{user?.name || "User"}</h2>
+                 <p className="text-muted font-bold text-xs sm:text-sm tracking-wide break-all max-w-[250px] sm:max-w-none">{user?.email || "user@example.com"}</p>
               </div>
            </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
            {/* Section 1 - Profile Details */}
-           <div className="glass-card p-12 rounded-[2rem] shadow-sm flex flex-col justify-between hover:shadow-lg transition-all border-none">
-              <div className="flex items-center justify-between mb-10">
+           <div className="glass-card p-8 sm:p-12 rounded-[2rem] shadow-sm flex flex-col justify-between hover:shadow-lg transition-all border-none">
+              <div className="flex items-center justify-between mb-8 sm:mb-10">
                  <h3 className="text-sm font-black text-heading flex items-center gap-3 uppercase tracking-widest">
                     <div className="w-10 h-10 bg-teal-500/10 rounded-xl flex items-center justify-center text-teal-500"><User size={20} /></div>
                     Personal Info
@@ -211,48 +211,48 @@ export default function Profile() {
                  <div className="space-y-2">
                     <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em] ml-2">Full Name</label>
                     {isEditing ? (
-                       <input type="text" value={profileData.name} onChange={(e) => setProfileData({...profileData, name: e.target.value})} className="w-full h-14 px-5 glass-pill border-none rounded-2xl text-sm font-black text-heading outline-none focus:ring-2 focus:ring-teal-500/30 transition-all" required />
+                       <input type="text" value={profileData.name} onChange={(e) => setProfileData({...profileData, name: e.target.value})} className="w-full h-12 sm:h-14 px-5 glass-pill border-none rounded-2xl text-sm font-black text-heading outline-none focus:ring-2 focus:ring-teal-500/30 transition-all" required />
                     ) : (
-                       <div className="h-14 flex items-center px-5 glass-pill rounded-2xl text-sm font-black text-heading tracking-tight">{user?.name}</div>
+                       <div className="h-12 sm:h-14 flex items-center px-5 glass-pill rounded-2xl text-sm font-black text-heading tracking-tight">{user?.name}</div>
                     )}
                  </div>
                  <div className="space-y-2">
                     <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em] ml-2">Email Address</label>
                     {isEditing ? (
-                       <input type="email" value={profileData.email} onChange={(e) => setProfileData({...profileData, email: e.target.value})} className="w-full h-14 px-5 glass-pill border-none rounded-2xl text-sm font-black text-heading outline-none focus:ring-2 focus:ring-teal-500/30 transition-all" required />
+                       <input type="email" value={profileData.email} onChange={(e) => setProfileData({...profileData, email: e.target.value})} className="w-full h-12 sm:h-14 px-5 glass-pill border-none rounded-2xl text-sm font-black text-heading outline-none focus:ring-2 focus:ring-teal-500/30 transition-all" required />
                     ) : (
-                       <div className="h-14 flex items-center px-5 glass-pill rounded-2xl text-sm font-black text-heading tracking-tight">{user?.email}</div>
+                       <div className="h-12 sm:h-14 flex items-center px-5 glass-pill rounded-2xl text-sm font-black text-heading tracking-tight break-all">{user?.email}</div>
                     )}
                  </div>
                  {isEditing && (
                     <div className="flex gap-4 pt-4">
-                       <button type="submit" disabled={loading} className="flex-1 h-14 bg-teal-600 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-teal-600/20 active:scale-95 transition-all">Save</button>
-                       <button type="button" onClick={() => setIsEditing(false)} className="flex-1 h-14 glass-pill text-muted hover:text-heading rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all">Cancel</button>
+                       <button type="submit" disabled={loading} className="flex-1 h-12 sm:h-14 bg-teal-600 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-teal-600/20 active:scale-95 transition-all">Save</button>
+                       <button type="button" onClick={() => setIsEditing(false)} className="flex-1 h-12 sm:h-14 glass-pill text-muted hover:text-heading rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all">Cancel</button>
                     </div>
                  )}
               </form>
            </div>
 
            {/* Section 2 - Security */}
-           <div className="glass-card p-12 rounded-[2rem] shadow-sm flex flex-col justify-between hover:shadow-lg transition-all border-none">
+           <div className="glass-card p-8 sm:p-12 rounded-[2rem] shadow-sm flex flex-col justify-between hover:shadow-lg transition-all border-none">
               <div>
-                 <h3 className="text-sm font-black text-heading flex items-center gap-3 mb-10 uppercase tracking-widest">
+                 <h3 className="text-sm font-black text-heading flex items-center gap-3 mb-8 sm:mb-10 uppercase tracking-widest">
                     <div className="w-10 h-10 bg-orange-500/10 rounded-xl flex items-center justify-center text-orange-500"><Shield size={20} /></div>
                     Account Security
                  </h3>
                  <div className="space-y-2">
                     <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em] ml-2">Current Password</label>
-                    <div className="flex items-center justify-between h-14 px-5 glass-pill rounded-2xl">
-                       <p className="text-lg font-black text-muted tracking-[0.3em] pt-2">••••••••</p>
-                       <button onClick={() => setShowPasswordModal(true)} className="text-[10px] font-black text-orange-500 uppercase tracking-widest hover:underline px-4 py-2 bg-orange-500/10 rounded-xl">Change</button>
+                    <div className="flex items-center justify-between h-12 sm:h-14 px-5 glass-pill rounded-2xl gap-2">
+                       <p className="text-lg font-black text-muted tracking-[0.3em] pt-2 truncate overflow-hidden">••••••••</p>
+                       <button onClick={() => setShowPasswordModal(true)} className="text-[9px] sm:text-[10px] font-black text-orange-500 uppercase tracking-widest hover:underline px-3 sm:px-4 py-2 bg-orange-500/10 rounded-xl whitespace-nowrap">Change</button>
                     </div>
                  </div>
               </div>
               <button 
                 onClick={logout} 
-                className="w-full h-14 mt-10 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.15em] transition-all flex items-center justify-center gap-2.5 active:scale-95"
+                className="w-full h-12 sm:h-14 mt-10 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.15em] transition-all flex items-center justify-center gap-2.5 active:scale-95"
               >
-                 <LogOut size={18} /> Logout Account
+                 <LogOut size={16} sm:size={18} /> Logout Account
               </button>
            </div>
         </div>
