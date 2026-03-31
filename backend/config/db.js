@@ -6,9 +6,7 @@ const connectDB = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("MongoDB Connected ✅");
   } catch (error) {
-    console.error("MongoDB Error ❌:", error);git add .
-git commit -m "fix mongo uri"
-git push
+    console.error("MongoDB Error ❌:", error);
     process.exit(1);
   }
 };
