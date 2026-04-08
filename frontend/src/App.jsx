@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Layout from "./components/Layout";
 import { Toaster } from "react-hot-toast";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -48,6 +49,7 @@ function App() {
       <AuthProvider>
         <Toaster position="top-center" reverseOrder={false} />
         <AppRoutes />
+        <SpeedInsights />
       </AuthProvider>
     </Router>
   );
